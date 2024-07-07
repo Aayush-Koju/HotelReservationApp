@@ -24,19 +24,15 @@ export class ReservationService {
     return this.http.get<Reservation>(this.apiUrl + "/reservation/"+id);
   }
 
-  addReservation(reservation: Reservation): void {
-    reservation.id = Date.now().toString();
-
-    this.reservations.push(reservation);
-    console.log(this.reservations);
+  addReservation(reservation: Reservation): Observable<void> {
+    return this.http.post<void>(this.apiUrl + "/reservation", reservation)
   }
 
   deleteReservation(id: String): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + "/reservation/"+id);
+    return this.http.delete<void>(this.apiUrl + "/reservation/"+ id);
   }
 
-  updateReservation(id: String, updatedReservation: Reservation): void {
-    let index = this.reservations.findIndex(res => res.id === id)
-    this.reservations[index] = updatedReservation;
+  updateReservation(id: String, updatedReservation: Reservation): Observable<void> {
+    return this.http.put<void>(this.apiUrl + "/reservation/" + id, updatedReservation)
   }
 }
